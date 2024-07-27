@@ -25,14 +25,22 @@ const initializeTable = async (process_id, table_name) => {
       signer: createDataItemSigner(window.arweaveWallet),
       tags: [{ name: "Action", value: "Eval" }],
       data: `sqlite3 = require('lsqlite3')
-            db = db or sqlite3.open_memory()
-            db:exec([[
-            CREATE TABLE IF NOT EXISTS ${table_name} (
-            ID INTEGER PRIMARY KEY AUTOINCREMENT
-            );
-            ]])
-             end`,
+      db = db or sqlite3.open_memory()
+      MYDATABASE = [[
+  CREATE TABLE IF NOT EXISTS ${table_name} (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT
+  );
+  ]]
+  
+  
+  function InitDb() 
+  db:exec(MYDATABASE)
+  end
+  
+  InitDb()
+             `,
     });
+    print("oooooooooooooooooooo");
     console.log("initializeTable messageId : " + messageId);
 
     let res1 = await result({
@@ -40,7 +48,7 @@ const initializeTable = async (process_id, table_name) => {
       process: process_id,
     });
     console.log(res1);
-    if (res1.Output.data.json != undefined) {
+    if (res1.Output.data.json != "undefined") {
       throw new Error("Table is not initiated");
     }
     console.log("Done");
@@ -74,7 +82,7 @@ const showColumns = async (process_id, table_name) => {
       process: process_id,
     });
     console.log(res1);
-    if (res1.Output.data.json != undefined) {
+    if (res1.Output.data.json != "undefined") {
       throw new Error("Error in showing all columns");
     }
     const _data = extractValues(stripAnsiCodes(res1.Output.data.output));
@@ -110,7 +118,7 @@ add_column("${table_name}", "${column_name}","${column_datatype}") `,
       process: process_id,
     });
     console.log(res1);
-    if (res1.Output.data.json != undefined) {
+    if (res1.Output.data.json != "undefined") {
       throw new Error("Error in adding new columns");
     }
     console.log("Done");
@@ -160,7 +168,7 @@ insert_values_into_table("${table_name}", values) `,
       process: process_id,
     });
     console.log(res1);
-    if (res1.Output.data.json != undefined) {
+    if (res1.Output.data.json != "undefined") {
       throw new Error("Error in adding data in table");
     }
     console.log("Done");
@@ -209,7 +217,7 @@ const getDataFromDatabase = async (process_id, table_name) => {
       process: process_id,
     });
     console.log(res1);
-    if (res1.Output.data.json != undefined) {
+    if (res1.Output.data.json != "undefined") {
       throw new Error("Error in getting all data in table");
     }
     const _data = convertToArray(stripAnsiCodes(res1.Output.data.output));
@@ -247,7 +255,7 @@ const deleteData = async (process_id, table_name, delete_data) => {
       process: process_id,
     });
     console.log(res1);
-    if (res1.Output.data.json != undefined) {
+    if (res1.Output.data.json != "undefined") {
       throw new Error("Error in deleting data");
     }
     console.log("Done");
@@ -267,9 +275,9 @@ sqlite3 = require('lsqlite3')
   db = db or sqlite3.open_memory()
 local result = db:exec(string.format([[
     UPDATE "${table_name}" SET ${Object.keys(data)
-        .map((val) => `"${val}"="${setOne[val]}"`)
+        .map((val) => `"${val}"="${data[val]}"`)
         .join(", ")} WHERE (${Object.keys(condition)
-        .map((val) => `"${val}"="${whereOne[val]}"`)
+        .map((val) => `"${val}"="${condition[val]}"`)
         .join(" AND ")})
 ]]))
 if result ~= sqlite3.OK then
@@ -283,7 +291,7 @@ end
       process: process_id,
     });
     console.log(res1);
-    if (res1.Output.data.json != undefined) {
+    if (res1.Output.data.json != "undefined") {
       throw new Error("Error in updating data");
     }
     console.log("Done");
@@ -339,4 +347,13 @@ const convertToArray = (str) => {
   return jsonObject;
 };
 
-module.exports={createProcessID,initializeTable,showColumns,addingColumn,addingDataInTable,getDataFromDatabase,deleteData,updateData};
+module.exports = {
+  createProcessID,
+  initializeTable,
+  showColumns,
+  addingColumn,
+  addingDataInTable,
+  getDataFromDatabase,
+  deleteData,
+  updateData,
+};
