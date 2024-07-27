@@ -1,0 +1,25 @@
+{
+  "name": "ao-lsqlite3",
+  "version": "1.0.0",
+  "description": "LUA lsqlite3 package for AO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AAshu1412/ao-lsqlite3-npm-package.git"
+  },
+  "keywords": [
+    "[\"AO\"",
+    "\"LUA\"",
+    "\"lsqlite3\"",
+    "\"Database\"]"
+  ],
+  "author": "Ashutosh Mittal",
+  "license": "ISC",
+  "dependencies": {
+    "@arweave-wallet-kit/react": "^0.0.1-beta.3",
+    "@permaweb/aoconnect": "^0.0.57"
+  }
+}
