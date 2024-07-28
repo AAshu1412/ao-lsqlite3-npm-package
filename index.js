@@ -329,4 +329,3 @@ const convertToArray = (str) => {
 
   return jsonObject;
 };
-
