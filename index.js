@@ -5,7 +5,7 @@ import {
   result,
 } from "@permaweb/aoconnect";
 
-const createProcessID = async () => {
+export const createProcessID = async () => {
   try {
     const processId = await spawn({
       module: "sBmq5pehE1_Ed5YBs4DGV4FMftoKwo_cVVsCpPND36Q",
@@ -18,7 +18,7 @@ const createProcessID = async () => {
   }
 };
 
-const initializeTable = async (process_id, table_name) => {
+export const initializeTable = async (process_id, table_name) => {
   try {
     const messageId = await message({
       process: process_id,
@@ -31,7 +31,6 @@ const initializeTable = async (process_id, table_name) => {
     ID INTEGER PRIMARY KEY AUTOINCREMENT
   );
   ]]
-  
   
   function InitDb() 
   db:exec(MYDATABASE)
@@ -57,7 +56,7 @@ const initializeTable = async (process_id, table_name) => {
   }
 };
 
-const showColumns = async (process_id, table_name) => {
+export const showColumns = async (process_id, table_name) => {
   try {
     const messageId = await message({
       process: process_id,
@@ -68,13 +67,7 @@ const showColumns = async (process_id, table_name) => {
       for row in db:nrows("PRAGMA table_info(${table_name});") do
             table.insert(schema_info, {name = row.name, type = row.type})
       end
-      all_attribute={}
-      
-      for _, values in ipairs(schema_info) do
-        table.insert(all_attribute,values.name)
-      end
-      
-      return all_attribute`,
+      return schema_info`,
     });
     console.log("showColumns messageId : " + messageId);
     let res1 = await result({
@@ -92,7 +85,7 @@ const showColumns = async (process_id, table_name) => {
   }
 };
 
-const addingColumn = async (
+export const addingColumn = async (
   process_id,
   table_name,
   column_name,
@@ -127,7 +120,7 @@ add_column("${table_name}", "${column_name}","${column_datatype}") `,
   }
 };
 
-const addingDataInTable = async (process_id, table_name, data) => {
+export const addingDataInTable = async (process_id, table_name, data) => {
   try {
     const values = convertToArrayString(data);
     const messageId = await message({
@@ -177,7 +170,7 @@ insert_values_into_table("${table_name}", values) `,
   }
 };
 
-const getDataFromDatabase = async (process_id, table_name) => {
+export const getDataFromDatabase = async (process_id, table_name) => {
   try {
     const messageId = await message({
       process: process_id,
@@ -227,7 +220,7 @@ const getDataFromDatabase = async (process_id, table_name) => {
   }
 };
 
-const deleteData = async (process_id, table_name, delete_data) => {
+export const deleteData = async (process_id, table_name, delete_data) => {
   try {
     const messageId = await message({
       process: process_id,
@@ -264,7 +257,7 @@ const deleteData = async (process_id, table_name, delete_data) => {
   }
 };
 
-const updateData = async (process_id, table_name, data, condition) => {
+export const updateData = async (process_id, table_name, data, condition) => {
   try {
     const messageId = await message({
       process: process_id,
@@ -347,13 +340,3 @@ const convertToArray = (str) => {
   return jsonObject;
 };
 
-module.exports = {
-  createProcessID,
-  initializeTable,
-  showColumns,
-  addingColumn,
-  addingDataInTable,
-  getDataFromDatabase,
-  deleteData,
-  updateData,
-};
