@@ -19,7 +19,7 @@ ao-lsqlite3 is an npm package designed for creating databases using Lua's lsqlit
 To install ao-lsqlite3@1.0.3 in the root directory of your project, run:
  
  ```bash
- npm install ao-lsqlite3@1.0.3
+ npm install ao-lsqlite3@1.0.4
  ```
 
 # createProcessID

@@ -78,7 +78,7 @@ export const showColumns = async (process_id, table_name) => {
     if (res1.Output.data.json != "undefined") {
       throw new Error("Error in showing all columns");
     }
-    const _data = extractValues(stripAnsiCodes(res1.Output.data.output));
+    const _data = convertToArray(stripAnsiCodes(res1.Output.data.output));
     return _data;
   } catch (error) {
     console.log(error);
@@ -298,16 +298,6 @@ const stripAnsiCodes = (str) =>
     /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
     ""
   );
-
-const extractValues = (str) => {
-  const trimmedStr = str.replace(/[{}]/g, "").trim();
-
-  const valuesArray = trimmedStr
-    .split(/\s*,\s*/)
-    .map((value) => value.replace(/"/g, ""));
-
-  return valuesArray;
-};
 
 const convertToArrayString = (str) => {
   const values = str.split(",");

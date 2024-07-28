@@ -1,7 +1,7 @@
 { 
   "type": "module",
   "name": "ao-lsqlite3",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "LUA lsqlite3 package for AO",
   "main": "index.js",
   "scripts": {
