@@ -39,7 +39,6 @@ export const initializeTable = async (process_id, table_name) => {
   InitDb()
              `,
     });
-    print("oooooooooooooooooooo");
     console.log("initializeTable messageId : " + messageId);
 
     let res1 = await result({
